@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:async';
+import '../shared/SendScore.dart';
 
 ButtonElement sendScore;
 
@@ -25,5 +26,11 @@ void sendData(Event e) {
   var url = "http://127.0.0.1:8081/submit";
   request.open("POST", url, async: false);
   request.setRequestHeader("Content-Type", "application/json");
-  request.send('{"name" : "test", "gameReaction" : "200", "gameWord" : "300", "gameClick" : "400"}');
+  
+  SendScore score = new SendScore();
+  score..name = "test"
+      ..gameClick = 400
+      ..gameReaction = 200
+      ..gameWord = 300;
+  request.send(score.jsonString);
 }
