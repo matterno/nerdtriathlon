@@ -10,9 +10,9 @@ bool isCheating = false;
 ButtonElement speedButton;
 Stopwatch mywatch2 = new Stopwatch();
 Timer timer2;
-var counter = 101;
+var counter = 51;
 
-
+InputElement name;
 InputElement inputText;
 String matchString = "Dart is a new platform for scalable web app engineering!";
 Stopwatch mywatch3 = new Stopwatch();
@@ -31,6 +31,7 @@ void main() {
   inputText = querySelector('#inputText');
   inputText.onClick.listen(beginGame);
   inputText.onInput.listen(checkInput);
+  name = querySelector('#playerName');
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +88,7 @@ void startGame(Event e){
   timer2 = new Timer.periodic(new Duration(milliseconds: 1), updateTime);
   counter--;
 
-  if(counter == 100){
+  if(counter == 50){
     mywatch2.start();
   }
   else if(counter ==0){

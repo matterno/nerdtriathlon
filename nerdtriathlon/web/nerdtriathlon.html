@@ -8,8 +8,11 @@
   </head>
   <body>
     <h1>Nerdtriathlon</h1>
-    
-    <div id="reaktions_spiel" style="background-color: blue;"><h1>Reaktion</h1>
+    <div>
+      <span>Name</span>
+      <input type="text" id="playerName" style="width: 600px;" >
+    </div>
+    <div id="reaktions_spiel" style="background-color: yellow;"><h1>Reaktion</h1>
     
     <div>
       <div id="main_container_id">
@@ -39,6 +42,10 @@
     <div>
       <span id="zeit2">Zeit: 0</span>
      </div>
+     
+       <div>
+    <button id="sendScore">Senden</button>
+  </div>
 
     <script type="application/dart" src="nerdtriathlon.dart"></script>
     <script src="packages/browser/dart.js"></script>
