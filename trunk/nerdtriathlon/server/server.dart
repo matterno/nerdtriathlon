@@ -84,11 +84,18 @@ void addCorsHeaders(HttpResponse res) {
 
 List<String> getTop10Highscore() {
   highscore.sort((a, b) => a.compareTo(b));
-  List top10 = highscore.getRange(0, 10);
+
+  int end = 0;
+  
+  if(highscore.length >= 10) {
+    end = 10;
+  } else {
+    end = highscore.length;
+  }
   
   List<String> entries = new List<String>();
-  for(int i = 0; i < top10.length; i++) {
-    entries.add(top10[i].jsonString);
+  for(int i = 0; i < end; i++) {
+    entries.add(highscore[i].jsonString);
   }
   
   return entries;
