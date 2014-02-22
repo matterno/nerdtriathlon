@@ -1,6 +1,9 @@
 import 'dart:html';
 import 'dart:async';
 import 'dart:math' show Random;
+import '../shared/SendScore.dart';
+
+ButtonElement sendScore;
 
 Stopwatch mywatch = new Stopwatch();
 ButtonElement button;
@@ -18,6 +21,7 @@ String matchString = "Dart is a new platform for scalable web app engineering!";
 Stopwatch mywatch3 = new Stopwatch();
 Timer timer3;
 bool gotFault = true;
+SendScore score;
 
 void main() {
   button = querySelector('#play_button')
@@ -27,11 +31,17 @@ void main() {
   speedButton = querySelector('#speedButton')
       ..onClick.listen(startGame);
   
-
   inputText = querySelector('#inputText');
   inputText.onClick.listen(beginGame);
   inputText.onInput.listen(checkInput);
-  name = querySelector('#playerName');
+  name = querySelector('#playerName')
+      ..onInput.listen(setName);
+  
+  
+  sendScore = querySelector('#sendScore')
+      ..onClick.listen(sendData);
+  score = new SendScore();
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +52,8 @@ void mouseUpEvent(MouseEvent event){
     var time = mywatch.elapsedMilliseconds;
     querySelector('#reaktionsZeit')
     ..text = "Benoetigte Zeit: " + time.toString() + " ms";
+    score.gameReaction = time;
+    enableSave();
     button.text = "Fertig";
     readyToCount = false;
     isCheating = true;
@@ -96,6 +108,9 @@ void startGame(Event e){
     var time = mywatch2.elapsedMilliseconds;
     querySelector('#zeit').text = time.toString();
     speedButton.disabled = true;
+    speedButton.text = "Fertig";
+    score.gameClick = time;
+    enableSave();
   }
   else{
     speedButton.text = "KLICKEN! $counter";
@@ -131,9 +146,47 @@ void checkInput(Event event){
       if(text.length == matchString.length) {
         mywatch3.stop();
         inputText.disabled = true;
+        score.gameWord = mywatch3.elapsedMilliseconds;
+        enableSave();
       }
     } else {
       inputText.style.backgroundColor = "red";
     }
   }    
+}
+
+///
+
+
+void sendData(Event e) {
+  HttpRequest request = new HttpRequest(); // create a new XHR
+  // add an event handler that is called when the request finishes
+  request.onReadyStateChange.listen((_) 
+      {
+    if (request.readyState == HttpRequest.DONE &&
+        (request.status == 200 || request.status == 0)) {
+      // data saved OK.
+      print(request.responseText); // output the response from the server
+    }
+      }
+  );
+  
+  var url = "http://127.0.0.1:8081/submit";
+  request.open("POST", url, async: false);
+  request.setRequestHeader("Content-Type", "application/json");
+  
+
+  request.send(score.jsonString);
+  window.location.assign("http://127.0.0.1:8081/top10");
+}
+
+void setName(Event e){
+  score.name = (e.target as InputElement).value;
+  enableSave();
+}
+
+void enableSave() {
+  if(score.name != null && score.gameReaction != 0 && score.gameClick != 0 && score.gameWord != 0) {
+    sendScore.disabled = false;
+  }
 }
