@@ -103,7 +103,7 @@ void startGame(Event e){
  }
 
 void updateTime(Timer _){
-  querySelector('#zeit').text = "Zeit: "+mywatch.elapsedMilliseconds.toString()+" ms";
+  querySelector('#zeit').text = "Zeit: "+mywatch2.elapsedMilliseconds.toString()+" ms";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
