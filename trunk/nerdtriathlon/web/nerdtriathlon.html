@@ -9,11 +9,34 @@
   <body>
     <h1>Nerdtriathlon</h1>
     
-    <p>Hello world from Dart!</p>
+    <div id="reaktions_spiel" style="background-color: blue;"><h1>Reaktion</h1>
     
-    <div id="sample_container_id">
-      <p id="sample_text_id"></p>
+    <div>
+      <div id="main_container_id">
+        <button id="play_button" >Pressen!</button>
+      </div>
+      
+      <div>
+        <span id="reaktionsZeit" >Benoetigte Zeit: </span>
+      </div>
     </div>
+    </div>
+    
+    <div id="geschwindigkeits_spiel" style="background-color: green;"><h1>Geschwindigkeit</h1>
+        <button id="speedButton" disable>Starten</button>
+      <div>
+        <span id="zeit">Zeit: 0</span>
+      </div>
+      
+      <div id="geschwindigkeits_spiel" style="background-color: green;"><h1>Geschwindigkeit</h1>
+      <img id="textImg" src="dart.png" style="visibility: hidden;">
+     </div>
+    <div>
+      <input type="text" id="inputText" style="width: 600px;" >
+     </div>
+    <div>
+      <span id="zeit2">Zeit: 0</span>
+     </div>
 
     <script type="application/dart" src="nerdtriathlon.dart"></script>
     <script src="packages/browser/dart.js"></script>

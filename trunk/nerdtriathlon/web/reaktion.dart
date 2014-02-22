@@ -20,7 +20,9 @@ void mouseUpEvent(MouseEvent event){
     mywatch.stop();
     button.disabled = true;
     var time = mywatch.elapsedMilliseconds;
-    button.text = time.toString();
+    querySelector('#reaktionsZeit')
+    ..text = "Benoetigte Zeit: " + time.toString() + " ms";
+    button.text = "Fertig";
     readyToCount = false;
     isCheating = true;
   } else if(isCheating) {
