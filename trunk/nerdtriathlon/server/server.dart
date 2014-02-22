@@ -3,6 +3,8 @@ import 'dart:io';
 import '../shared/SendScore.dart';
 import '../shared/HighScoreEntry.dart';
 
+List<HighScoreEntry> highscore = [];
+
 void main() {
   HttpServer.bind('127.0.0.1', 8081)
     .then((server) {
@@ -50,6 +52,15 @@ handleSubmit(HttpRequest request) {
       
       print('Parsed data: name = ${score.name}, reaction = ${score.gameReaction}, click = ${score.gameClick}, word = ${score.gameWord}');
       
+      HighScoreEntry highscoreEntry = new HighScoreEntry();
+      highscoreEntry..name = score.name
+          ..score = calculateScore(score)
+          ..scoreClick = score.gameClick
+          ..scoreReaction = score.gameReaction
+          ..scoreWord = score.gameWord;
+      
+      highscore.add(highscoreEntry);
+      
       // Do something with the data now.
       request.response.write("SUCCESS");
     });
@@ -60,6 +71,10 @@ handleSubmit(HttpRequest request) {
   request.response.close();
 }
 
+int calculateScore(SendScore score) {
+  return score.gameClick*2 + score.gameReaction*30 + score.gameWord;
+}
+
 void addCorsHeaders(HttpResponse res) {
   res.headers.add('Access-Control-Allow-Origin', '*, ');
   res.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -68,15 +83,12 @@ void addCorsHeaders(HttpResponse res) {
 }
 
 List<String> getTop10Highscore() {
+  highscore.sort((a, b) => a.compareTo(b));
+  List top10 = highscore.getRange(0, 10);
+  
   List<String> entries = new List<String>();
-  for(int i = 0; i < 10; i++) {
-    HighScoreEntry entry = new HighScoreEntry();
-    entry..name = 'Player$i'
-    ..score = 10 - i
-    ..scoreClick = 10-i
-    ..scoreReaction = 10-i
-    ..scoreWord = 10-i;
-    entries.add(entry.jsonString);
+  for(int i = 0; i < top10.length; i++) {
+    entries.add(top10[i].jsonString);
   }
   
   return entries;

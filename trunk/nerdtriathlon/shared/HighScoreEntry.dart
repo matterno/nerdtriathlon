@@ -1,6 +1,6 @@
 import 'dart:convert' show JSON;
 
-class HighScoreEntry {
+class HighScoreEntry implements Comparable<HighScoreEntry>{
   
   HighScoreEntry() { }
   
@@ -20,4 +20,8 @@ class HighScoreEntry {
   }
   
   String get jsonString => JSON.encode({"name": name, "score": score, "scoreReaction": scoreReaction, "scoreWord": scoreWord, "scoreClick": scoreClick});
+
+  int compareTo(HighScoreEntry other) {
+    return score.compareTo(other.score);
+  }
 }
