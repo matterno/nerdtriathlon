@@ -7,7 +7,10 @@ Stopwatch mywatch = new Stopwatch();
 Timer timer;
 
 void main() {
-  ParagraphElement text = querySelector('#text')
-      ..text = example;
   inputText = querySelector('#inputText');
+  inputText.onClick.listen(beginGame);
+}
+
+void beginGame(MouseEvent event){
+  
 }
